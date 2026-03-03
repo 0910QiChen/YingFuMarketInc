@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: TRANSLATE_HTTP_LOADER_CONFIG,
       useValue: {
-        basePath: './assets/i18n/',
+        prefix: 'assets/i18n/',
         suffix: '.json',
       },
     },
