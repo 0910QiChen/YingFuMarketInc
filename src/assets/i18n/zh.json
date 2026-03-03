@@ -1,6 +1,6 @@
 {
   "header": {
-    "title": "盈福干货市场",
+    "title": "盈福参茸行",
     "slogan": "精选海鲜 · 高品质人参 · 一站式购齐",
     "searchPlaceholder": "搜索海鲜 / 人参 / 商品名称"
   },
@@ -31,6 +31,15 @@
     "trust1": "坚持精选，不做低等级大宗混卖。",
     "trust2": "商品信息透明，并提供实用烹饪建议。",
     "trust3": "重视服务体验，长期经营社区口碑。"
+  },
+  "location": {
+    "title": "门店位置",
+    "subtitle": "欢迎到店选购，我们可现场提供食材建议与库存信息。",
+    "addressLabel": "地址",
+    "addressValue": "42-35 MAIN ST 1P4 FLUSHING NY 11355",
+    "hoursLabel": "营业时间",
+    "hoursValue": "周一至周日 9:00 - 17:00",
+    "mapCta": "在地图中查看"
   },
   "lang": {
     "zh": "中文",

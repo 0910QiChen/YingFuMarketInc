@@ -32,6 +32,15 @@
     "trust2": "Transparent product details and practical usage guidance.",
     "trust3": "Friendly service and long-term community relationships."
   },
+  "location": {
+    "title": "Store Location",
+    "subtitle": "Visit us in person for product recommendations and fresh stock updates.",
+    "addressLabel": "Address",
+    "addressValue": "42-35 MAIN ST 1P4 FLUSHING NY 11355",
+    "hoursLabel": "Business Hours",
+    "hoursValue": "Mon - Sun, 9:00 AM - 5:00 PM",
+    "mapCta": "View on Map"
+  },
   "lang": {
     "zh": "中文",
     "en": "English"

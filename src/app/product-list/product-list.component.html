@@ -89,6 +89,32 @@
 		</section>
 
 		<app-about-story></app-about-story>
+
+		<section class="location-section">
+			<div class="location-header">
+				<h2>{{ 'location.title' | translate }}</h2>
+				<p>{{ 'location.subtitle' | translate }}</p>
+			</div>
+
+			<div class="location-card">
+				<p class="location-line">
+					<strong>{{ 'location.addressLabel' | translate }}</strong>
+					<span>{{ 'location.addressValue' | translate }}</span>
+				</p>
+				<p class="location-line">
+					<strong>{{ 'location.hoursLabel' | translate }}</strong>
+					<span>{{ 'location.hoursValue' | translate }}</span>
+				</p>
+				<a
+					class="location-link"
+					href="https://www.google.com/maps/place/42-35+Main+St,+Flushing,+NY+11355/@40.7546757,-73.8301189,17z/data=!3m1!4b1!4m6!3m5!1s0x89c26012fbc46021:0x340afa55af3148ad!8m2!3d40.7546717!4d-73.827544!16s%2Fg%2F11c22zwmgh?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{{ 'location.mapCta' | translate }}
+				</a>
+			</div>
+		</section>
 	</main>
 
 	<footer class="site-footer">

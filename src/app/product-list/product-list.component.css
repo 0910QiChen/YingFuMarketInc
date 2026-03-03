@@ -286,6 +286,72 @@
 	font-size: 12px;
 }
 
+.location-section {
+	background: #ffffff;
+	border: 1px solid #fecaca;
+	border-radius: 20px;
+	padding: 20px;
+	box-shadow: 0 10px 24px rgba(153, 27, 27, 0.12);
+	margin-bottom: 20px;
+}
+
+.location-header h2 {
+	font-size: 20px;
+	font-weight: 700;
+	color: #991b1b;
+	margin: 0 0 4px;
+}
+
+.location-header p {
+	font-size: 13px;
+	color: #6b7280;
+	margin: 0 0 14px;
+}
+
+.location-card {
+	border: 1px solid #fecaca;
+	background: linear-gradient(180deg, #fff7f7 0%, #ffffff 100%);
+	border-radius: 14px;
+	padding: 14px;
+	display: grid;
+	gap: 10px;
+}
+
+.location-line {
+	display: grid;
+	gap: 2px;
+	margin: 0;
+}
+
+.location-line strong {
+	font-size: 12px;
+	color: #b91c1c;
+}
+
+.location-line span {
+	font-size: 13px;
+	color: #374151;
+}
+
+.location-link {
+	justify-self: start;
+	display: inline-flex;
+	align-items: center;
+	padding: 7px 12px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #ffffff;
+	background: #dc2626;
+	text-decoration: none;
+	transition: background-color 0.12s ease, transform 0.12s ease;
+}
+
+.location-link:hover {
+	background: #b91c1c;
+	transform: translateY(-1px);
+}
+
 @media (max-width: 640px) {
 	.header {
 		flex-direction: column;
