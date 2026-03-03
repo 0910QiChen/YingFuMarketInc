@@ -90,10 +90,20 @@
 
 .banner {
 	border-radius: 20px;
-	padding: 20px 20px;
+	overflow: hidden;
 	margin-bottom: 20px;
-	background: linear-gradient(135deg, #232f3e 0%, #37475a 100%);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	color: #f9fafb;
+	min-height: 180px;
+}
+
+.banner-overlay {
+	width: 100%;
+	min-height: 180px;
+	padding: 20px;
+	background: linear-gradient(90deg, rgba(17, 24, 39, 0.75) 0%, rgba(17, 24, 39, 0.35) 100%);
 	display: flex;
 	align-items: center;
 }
@@ -107,6 +117,18 @@
 .banner-text p {
 	font-size: 13px;
 	color: #e5e7eb;
+}
+
+.banner-tag {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 10px;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 600;
+	color: #111827;
+	background: #ff9900;
+	margin-bottom: 8px;
 }
 
 .product-section {

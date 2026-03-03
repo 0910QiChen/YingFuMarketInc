@@ -34,10 +34,22 @@
 	</header>
 
 	<main class="content">
-		<section class="banner">
-			<div class="banner-text">
-				<h2>{{ 'banner.title' | translate }}</h2>
-				<p>{{ 'banner.subtitle' | translate }}</p>
+		<section class="banner" [style.background-image]="bannerBackground()">
+			<div class="banner-overlay">
+				<div class="banner-text" *ngIf="bannerProduct as item; else bannerDefault">
+					<span class="banner-tag">{{ 'banner.random' | translate }}</span>
+					<h2>{{ localizedName(item.name) }}</h2>
+					<p>
+						{{ localizedDescription(item.description) || ('banner.subtitle' | translate) }}
+					</p>
+				</div>
+
+				<ng-template #bannerDefault>
+					<div class="banner-text">
+						<h2>{{ 'banner.title' | translate }}</h2>
+						<p>{{ 'banner.subtitle' | translate }}</p>
+					</div>
+				</ng-template>
 			</div>
 		</section>
 

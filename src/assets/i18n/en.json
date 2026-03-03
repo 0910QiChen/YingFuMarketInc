@@ -6,7 +6,8 @@
   },
   "banner": {
     "title": "Seasonal specials · Limited-time offers",
-    "subtitle": "Carefully selected dry goods from origin, delivered with cold-chain."
+    "subtitle": "Carefully selected dry goods from origin, delivered with cold-chain.",
+    "random": "Today's random pick"
   },
   "products": {
     "all": "All products",

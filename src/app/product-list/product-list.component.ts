@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GoogleSheetService, ProductWithCategoryName } from '../google-sheet.service';
@@ -10,10 +10,14 @@ import { GoogleSheetService, ProductWithCategoryName } from '../google-sheet.ser
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
   products: ProductWithCategoryName[] = [];
   searchTerm = '';
   currentLang: 'zh' | 'en' = 'zh';
+  bannerProduct: ProductWithCategoryName | null = null;
+
+  private readonly bannerRotateIntervalMs = 7000;
+  private bannerRotateTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor(
     private sheetService: GoogleSheetService,
@@ -24,9 +28,19 @@ export class ProductListComponent implements OnInit {
     this.translate.setDefaultLang('zh');
     this.translate.use(this.currentLang);
 
+    this.startBannerRotation();
+
     this.sheetService.getProductsWithCategoryName().subscribe(data => {
       this.products = data;
+      this.setRandomBannerProduct();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.bannerRotateTimer) {
+      clearInterval(this.bannerRotateTimer);
+      this.bannerRotateTimer = null;
+    }
   }
 
   changeLanguage(lang: 'zh' | 'en'): void {
@@ -40,6 +54,16 @@ export class ProductListComponent implements OnInit {
 
   onSearch(value: string): void {
     this.searchTerm = value ?? '';
+  }
+
+  bannerBackground(): string {
+    const imageUrl = this.bannerProduct?.imageUrl?.trim();
+
+    if (!imageUrl) {
+      return 'linear-gradient(135deg, #232f3e 0%, #37475a 100%)';
+    }
+
+    return `linear-gradient(rgba(17, 24, 39, 0.55), rgba(17, 24, 39, 0.55)), url('${imageUrl}')`;
   }
 
   itemBackground(imageUrl?: string): string {
@@ -58,6 +82,36 @@ export class ProductListComponent implements OnInit {
 
   localizedDescription(description?: string): string {
     return this.localizeMixedText(description);
+  }
+
+  private startBannerRotation(): void {
+    if (this.bannerRotateTimer) {
+      return;
+    }
+
+    this.bannerRotateTimer = setInterval(() => {
+      this.setRandomBannerProduct();
+    }, this.bannerRotateIntervalMs);
+  }
+
+  private setRandomBannerProduct(): void {
+    const candidates = this.products.filter((item) => item.name?.trim());
+
+    if (!candidates.length) {
+      this.bannerProduct = null;
+      return;
+    }
+
+    const previousId = this.bannerProduct?.id;
+
+    if (candidates.length === 1) {
+      this.bannerProduct = candidates[0];
+      return;
+    }
+
+    const pool = candidates.filter((item) => item.id !== previousId);
+    const randomIndex = Math.floor(Math.random() * pool.length);
+    this.bannerProduct = pool[randomIndex];
   }
 
   private localizeMixedText(value?: string): string {
