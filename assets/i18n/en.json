@@ -1,0 +1,23 @@
+{
+  "header": {
+    "title": "Ying Fu Market Inc.",
+    "slogan": "Premium seafood and ginseng, all in one place",
+    "searchPlaceholder": "Search seafood / ginseng / product name"
+  },
+  "banner": {
+    "title": "Seasonal specials · Limited-time offers",
+    "subtitle": "Carefully selected dry goods from origin, delivered with cold-chain."
+  },
+  "products": {
+    "all": "All products",
+    "count": "{{count}} items"
+  },
+  "price": {
+    "unit": "/ 1 pound"
+  },
+  "lang": {
+    "zh": "中文",
+    "en": "English"
+  }
+}
+
