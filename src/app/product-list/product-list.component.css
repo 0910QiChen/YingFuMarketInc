@@ -1,7 +1,7 @@
 .page {
 	min-height: 100vh;
-	background: linear-gradient(180deg, #131921 0%, #1b2838 100%);
-	color: #f3f4f6;
+	background: linear-gradient(180deg, #fff5f5 0%, #ffffff 70%);
+	color: #1f2937;
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
 		"Segoe UI", sans-serif;
 }
@@ -20,13 +20,13 @@
 	font-size: 24px;
 	font-weight: 700;
 	letter-spacing: 0.08em;
-	color: #ff9900;
+	color: #b91c1c;
 }
 
 .slogan {
 	margin-top: 4px;
 	font-size: 13px;
-	color: #d1d5db;
+	color: #6b7280;
 }
 
 .header-right {
@@ -43,9 +43,9 @@
 .lang-button {
 	padding: 4px 10px;
 	border-radius: 999px;
-	border: 1px solid #64748b;
-	background: #232f3e;
-	color: #f9fafb;
+	border: 1px solid #fca5a5;
+	background: #ffffff;
+	color: #991b1b;
 	font-size: 11px;
 	cursor: pointer;
 	transition: background-color 0.12s ease, color 0.12s ease,
@@ -53,9 +53,9 @@
 }
 
 .lang-button.active {
-	background: #ff9900;
-	border-color: #ff9900;
-	color: #111827;
+	background: #dc2626;
+	border-color: #dc2626;
+	color: #ffffff;
 	font-weight: 600;
 }
 
@@ -77,8 +77,8 @@
 }
 
 .search-input:focus {
-	border-color: #ff9900;
-	box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.35);
+	border-color: #dc2626;
+	box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
 	background-color: #ffffff;
 }
 
@@ -103,7 +103,7 @@
 	width: 100%;
 	min-height: 180px;
 	padding: 20px;
-	background: linear-gradient(90deg, rgba(17, 24, 39, 0.75) 0%, rgba(17, 24, 39, 0.35) 100%);
+	background: linear-gradient(90deg, rgba(127, 29, 29, 0.65) 0%, rgba(220, 38, 38, 0.35) 100%);
 	display: flex;
 	align-items: center;
 }
@@ -126,17 +126,17 @@
 	border-radius: 999px;
 	font-size: 11px;
 	font-weight: 600;
-	color: #111827;
-	background: #ff9900;
+	color: #ffffff;
+	background: #b91c1c;
 	margin-bottom: 8px;
 }
 
 .product-section {
-	background-color: #232f3e;
+	background-color: #ffffff;
 	border-radius: 20px;
 	padding: 20px;
-	box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
-	border: 1px solid #37475a;
+	box-shadow: 0 14px 28px rgba(153, 27, 27, 0.12);
+	border: 1px solid #fecaca;
 }
 
 .section-title {
@@ -150,12 +150,12 @@
 .section-title h2 {
 	font-size: 18px;
 	font-weight: 600;
-	color: #f9fafb;
+	color: #991b1b;
 }
 
 .subtitle {
 	font-size: 12px;
-	color: #d1d5db;
+	color: #6b7280;
 }
 
 .product-list {
@@ -179,7 +179,7 @@
 .product-card:hover {
 	transform: translateY(-4px);
 	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
-	border-color: #ff9900;
+	border-color: #dc2626;
 }
 
 .image-wrapper {
@@ -199,9 +199,9 @@
 	border-radius: 999px;
 	font-size: 11px;
 	font-weight: 500;
-	background: #131921;
-	color: #ff9900;
-	border: 1px solid #ff9900;
+	background: #991b1b;
+	color: #ffffff;
+	border: 1px solid #fecaca;
 	backdrop-filter: blur(10px);
 }
 
@@ -243,7 +243,7 @@
 .price {
 	font-size: 18px;
 	font-weight: 700;
-	color: #b45309;
+	color: #b91c1c;
 }
 
 .price-unit {
@@ -282,7 +282,7 @@
 	margin: 0 auto;
 	padding: 0 16px 24px;
 	text-align: center;
-	color: #9ca3af;
+	color: #7f1d1d;
 	font-size: 12px;
 }
 

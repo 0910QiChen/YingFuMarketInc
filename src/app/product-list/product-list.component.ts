@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GoogleSheetService, ProductWithCategoryName } from '../google-sheet.service';
+import { AboutStoryComponent } from '../about-story/about-story.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, AboutStoryComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
@@ -61,10 +62,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const imageUrl = this.bannerProduct?.imageUrl?.trim();
 
     if (!imageUrl) {
-      return 'linear-gradient(135deg, #232f3e 0%, #37475a 100%)';
+      return 'linear-gradient(135deg, #b91c1c 0%, #dc2626 100%)';
     }
 
-    return `linear-gradient(rgba(17, 24, 39, 0.55), rgba(17, 24, 39, 0.55)), url('${imageUrl}')`;
+    return `linear-gradient(rgba(127, 29, 29, 0.6), rgba(185, 28, 28, 0.45)), url('${imageUrl}')`;
   }
 
   itemBackground(imageUrl?: string): string {
