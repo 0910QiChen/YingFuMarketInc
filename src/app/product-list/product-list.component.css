@@ -277,6 +277,15 @@
 	box-shadow: 0 4px 10px rgba(249, 115, 22, 0.5);
 }
 
+.site-footer {
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 0 16px 24px;
+	text-align: center;
+	color: #9ca3af;
+	font-size: 12px;
+}
+
 @media (max-width: 640px) {
 	.header {
 		flex-direction: column;

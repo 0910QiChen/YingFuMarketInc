@@ -14,6 +14,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   products: ProductWithCategoryName[] = [];
   searchTerm = '';
   currentLang: 'zh' | 'en' = 'zh';
+  currentYear = new Date().getFullYear();
   bannerProduct: ProductWithCategoryName | null = null;
 
   private readonly bannerRotateIntervalMs = 7000;
