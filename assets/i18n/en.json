@@ -16,6 +16,22 @@
   "price": {
     "unit": "/ 1 pound"
   },
+  "about": {
+    "title": "About Ying Fu Market Inc.",
+    "subtitle": "Who we are, what we stand for, and why customers trust us.",
+    "storyTitle": "Our Story",
+    "storyBody": "Ying Fu Market Inc. began with a simple goal: bring dependable premium seafood and ginseng ingredients to local families and restaurants.",
+    "missionTitle": "Our Mission",
+    "missionBody": "To make traditional nourishing ingredients easier to buy with confidence, clear information, and consistent quality.",
+    "sourcingTitle": "Sourcing Standards",
+    "sourcing1": "We work with trusted suppliers known for stable quality.",
+    "sourcing2": "We review freshness, aroma, texture, and overall condition.",
+    "sourcing3": "We keep handling and storage standards focused on product integrity.",
+    "trustTitle": "Why Customers Trust Us",
+    "trust1": "Carefully selected products instead of low-grade bulk inventory.",
+    "trust2": "Transparent product details and practical usage guidance.",
+    "trust3": "Friendly service and long-term community relationships."
+  },
   "lang": {
     "zh": "中文",
     "en": "English"
