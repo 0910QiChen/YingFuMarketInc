@@ -1,0 +1,23 @@
+{
+  "header": {
+    "title": "盈福干货市场",
+    "slogan": "精选海鲜 · 高品质人参 · 一站式购齐",
+    "searchPlaceholder": "搜索海鲜 / 人参 / 商品名称"
+  },
+  "banner": {
+    "title": "当季新品 · 限时优惠",
+    "subtitle": "严选原产地干货，冷链直达，安心入菜。"
+  },
+  "products": {
+    "all": "全部商品",
+    "count": "共 {{count}} 件好物"
+  },
+  "price": {
+    "unit": "/ 1 磅"
+  },
+  "lang": {
+    "zh": "中文",
+    "en": "English"
+  }
+}
+

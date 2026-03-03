@@ -1,0 +1,79 @@
+<div class="page">
+	<header class="header">
+		<div class="header-left">
+			<h1 class="logo">{{ 'header.title' | translate }}</h1>
+			<p class="slogan">{{ 'header.slogan' | translate }}</p>
+		</div>
+		<div class="header-right">
+			<div class="lang-switch">
+				<button
+					type="button"
+					class="lang-button"
+					[class.active]="currentLang === 'zh'"
+					(click)="changeLanguage('zh')"
+				>
+					{{ 'lang.zh' | translate }}
+				</button>
+				<button
+					type="button"
+					class="lang-button"
+					[class.active]="currentLang === 'en'"
+					(click)="changeLanguage('en')"
+				>
+					{{ 'lang.en' | translate }}
+				</button>
+			</div>
+			<input
+				class="search-input"
+				[placeholder]="'header.searchPlaceholder' | translate"
+				[value]="searchTerm"
+				(input)="onSearch($any($event.target).value)"
+				type="text"
+			/>
+		</div>
+	</header>
+
+	<main class="content">
+		<section class="banner">
+			<div class="banner-text">
+				<h2>{{ 'banner.title' | translate }}</h2>
+				<p>{{ 'banner.subtitle' | translate }}</p>
+			</div>
+		</section>
+
+		<section class="product-section">
+			<div class="section-title">
+				<h2>{{ 'products.all' | translate }}</h2>
+				<span class="subtitle">
+					{{ 'products.count' | translate:{ count: filteredProducts.length } }}
+				</span>
+			</div>
+
+			<div class="product-list">
+				<div *ngFor="let item of filteredProducts" class="product-card">
+					<div
+						class="image-wrapper"
+						[style.background-image]="itemBackground(item.imageUrl)"
+					>
+						<span class="badge" *ngIf="item.categoryName">
+							{{ localizedName(item.categoryName) }}
+						</span>
+					</div>
+
+					<div class="card-body">
+						<h3 class="name">{{ localizedName(item.name) }}</h3>
+						<p class="desc">{{ localizedDescription(item.description) }}</p>
+						<div class="card-footer">
+							<div class="price-block">
+								<span class="price">{{ item.price | currency:'USD' }}</span>
+								<span class="price-unit">
+									{{ 'price.unit' | translate }}
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>
