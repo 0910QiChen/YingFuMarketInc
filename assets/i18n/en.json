@@ -17,7 +17,9 @@
     "count": "{{count}} items"
   },
   "price": {
-    "unit": "/ 1 pound"
+    "unit": "/ 1 pound",
+    "discussInStore": "Discuss in store",
+    "discussWithLabel": "Price/Pound: Discuss in store"
   },
   "about": {
     "title": "About Ying Fu Market Inc.",
@@ -47,6 +49,9 @@
   "lang": {
     "zh": "中文",
     "en": "English"
+  },
+  "intro": {
+    "enter": "Enter Site"
   }
 }
 

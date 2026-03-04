@@ -4,7 +4,7 @@
   },
   "header": {
     "title": "盈福参茸行",
-    "slogan": "精选海鲜 · 高品质人参 · 一站式购齐",
+    "slogan": "精选海鲜 · 高品质人参 · 一站式浏览",
     "searchPlaceholder": "搜索海鲜 / 人参 / 商品名称"
   },
   "banner": {
@@ -17,7 +17,9 @@
     "count": "共 {{count}} 件好物"
   },
   "price": {
-    "unit": "/ 1 磅"
+    "unit": "/ 1 磅",
+    "discussInStore": "店内洽谈",
+    "discussWithLabel": "每磅价格：店内洽谈"
   },
   "about": {
     "title": "关于盈福参茸行",
@@ -47,6 +49,9 @@
   "lang": {
     "zh": "中文",
     "en": "English"
+  },
+  "intro": {
+    "enter": "进入网站"
   }
 }
 
