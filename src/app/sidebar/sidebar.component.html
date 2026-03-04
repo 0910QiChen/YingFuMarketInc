@@ -1,0 +1,14 @@
+<div class="sidebar-inner">
+  <div class="sidebar-top">
+    <img src="/favicon1.ico" alt="logo" class="sidebar-logo" />
+  </div>
+
+  <button type="button" class="category-pill all" [class.active]="!selected" (click)="onSelect('')">
+    {{ 'products.all' | translate }}
+  </button>
+
+  <button *ngFor="let c of categories" type="button" class="category-pill" [class.active]="selected === c.name" (click)="onSelect(c.name)">
+    <span class="label">{{ c.name | localized }}</span>
+    <span class="count">{{ c.count }}</span>
+  </button>
+</div>

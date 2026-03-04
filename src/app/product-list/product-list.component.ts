@@ -1,16 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHelperService } from '../i18n/translate-helper.service';
 import { GoogleSheetService, ProductWithCategoryName } from '../google-sheet.service';
 import { AboutStoryComponent } from '../about-story/about-story.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, TranslateModule, AboutStoryComponent],
+  imports: [CommonModule, TranslateModule, AboutStoryComponent, SidebarComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
+
 export class ProductListComponent implements OnInit, OnDestroy {
   products: ProductWithCategoryName[] = [];
   searchTerm = '';
@@ -18,6 +21,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   currentYear = new Date().getFullYear();
   bannerProduct: ProductWithCategoryName | null = null;
   showIntro = true;
+  selectedCategory = '';
   private readonly introAutoHideMs = 10000;
   private introTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -50,7 +54,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(
     private sheetService: GoogleSheetService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private th: TranslateHelperService
   ) {}
 
   ngOnInit(): void {
@@ -66,9 +71,27 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.startBannerRotation();
 
     this.sheetService.getProductsWithCategoryName().subscribe(data => {
-      this.products = data;
+      this.products = (data || []).filter(p => (p.name ?? '').trim() && (p.description ?? '').trim());
       this.setRandomBannerProduct();
     });
+  }
+
+  get categories(): { name: string; count: number }[] {
+    const map = new Map<string, number>();
+    this.products.forEach(p => {
+      const name = this.normalizeCategory(p.categoryName);
+      map.set(name, (map.get(name) || 0) + 1);
+    });
+
+    return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
+  }
+
+  selectCategory(name: string): void {
+    if (this.selectedCategory === name) {
+      this.selectedCategory = '';
+    } else {
+      this.selectedCategory = name;
+    }
   }
 
   ngOnDestroy(): void {
@@ -142,11 +165,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   localizedName(name?: string): string {
-    return this.localizeMixedText(name);
+    return this.th.toLocalizedText(name);
   }
 
   localizedDescription(description?: string): string {
-    return this.localizeMixedText(description);
+    return this.th.toLocalizedText(description);
   }
 
   private startBannerRotation(): void {
@@ -160,7 +183,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   private setRandomBannerProduct(): void {
-    const candidates = this.products.filter((item) => item.name?.trim());
+    const candidates = this.products.filter((item) => (item.name ?? '').trim() && (item.description ?? '').trim());
 
     if (!candidates.length) {
       this.bannerProduct = null;
@@ -179,60 +202,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.bannerProduct = pool[randomIndex];
   }
 
-  private localizeMixedText(value?: string): string {
-    const text = (value ?? '').trim();
-
-    if (!text) {
-      return '';
-    }
-
-    const sections = text
-      .split(/\r?\n|\|\|\|\||\|\|/)
-      .map((part) => part.trim())
-      .filter(Boolean);
-
-    if (this.currentLang === 'en') {
-      const englishText = sections
-        .map((part) =>
-          part
-            .replace(/[\u4e00-\u9fff]/g, ' ')
-            .replace(/[，。！？；：、“”‘’（）【】《》、]/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim()
-        )
-        .filter(Boolean)
-        .join(' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-
-      return englishText || text;
-    }
-
-    const chineseText = sections
-      .map((part) =>
-        part
-          .replace(/[A-Za-z]/g, ' ')
-          .replace(/[0-9]/g, ' ')
-          .replace(/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim()
-      )
-      .filter(Boolean)
-      .join(' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    return chineseText || text;
-  }
-
-  private shouldShowIntro(): boolean {
-    try {
-      return localStorage.getItem(this.introSeenStorageKey) !== '1';
-    } catch {
-      return false;
-    }
-  }
-
   private markIntroSeen(): void {
     try {
       localStorage.setItem(this.introSeenStorageKey, '1');
@@ -241,13 +210,29 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
   }
 
+  private normalizeCategory(raw?: string): string {
+    const s = (raw ?? '').trim();
+    if (!s) return 'Others';
+
+    if (/\b(others)\b/i.test(s) || /其他/.test(s) || /其他\s*Others?/i.test(s)) {
+      return 'Others';
+    }
+
+    return s;
+  }
+
   get filteredProducts(): ProductWithCategoryName[] {
     const keyword = this.searchTerm.trim().toLowerCase();
-    const namedProducts = this.products.filter((item) => item.name?.trim());
+    const namedProducts = this.products.filter((item) => (item.name ?? '').trim() && (item.description ?? '').trim());
+    const filterByKeywordAndCategory = (list: ProductWithCategoryName[]) => {
+      let out = list;
+      if (this.selectedCategory) {
+        out = out.filter(p => this.normalizeCategory(p.categoryName) === this.selectedCategory);
+      }
 
-    const filterByKeyword = (list: ProductWithCategoryName[]) => {
-      if (!keyword) return list;
-      return list.filter((item) => {
+      if (!keyword) return out;
+
+      return out.filter((item) => {
         const searchableText = [item.name, item.description, item.categoryName]
           .filter(Boolean)
           .join(' ')
@@ -256,14 +241,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
         return searchableText.includes(keyword);
       });
     };
-
-    // Ensure topSale items appear first while preserving relative order otherwise
+    
     const sorted = [...namedProducts].sort((a, b) => {
       const aTop = a.topSale ? 1 : 0;
       const bTop = b.topSale ? 1 : 0;
       return bTop - aTop;
     });
 
-    return filterByKeyword(sorted);
+    return filterByKeywordAndCategory(sorted);
   }
 }

@@ -1,0 +1,13 @@
+:host { display:block; position:sticky; top:24px; align-self:flex-start; }
+.sidebar-inner { display:flex; flex-direction:column; gap:10px; padding-top:8px; max-height: calc(100vh - 120px); overflow:auto; padding-right:8px; -webkit-overflow-scrolling: touch; }
+.sidebar-top { display:flex; align-items:center; justify-content:center; padding:8px 0 6px; }
+.sidebar-logo { width:200px; height:125px; object-fit:contain; border-radius:8px; display:block; }
+.category-pill { text-align:left; padding:10px 14px; border-radius:999px; border:1px solid #f3c2c2; background:transparent; color:#991b1b; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:space-between; }
+.category-pill .count { color:#6b7280; font-weight:500; margin-left:8px; }
+.category-pill.active { background:#dc2626; color:#fff; border-color:#dc2626; }
+.category-pill.all:not(.active) { background:transparent; }
+
+@media (max-width: 760px) {
+  :host { position:static; }
+  .sidebar-inner { max-height: none; overflow:visible; padding-right:0; }
+}

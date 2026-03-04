@@ -8,7 +8,14 @@
 </div>
 
 <div class="page">
-	<div class="top-brand-bg">
+
+	<div class="layout">
+		<aside class="sidebar">
+			<app-sidebar [categories]="categories" [selected]="selectedCategory" (selectCategory)="selectCategory($event)"></app-sidebar>
+		</aside>
+
+		<div class="main-column">
+			<div class="top-brand-bg">
 		<header class="header">
 			<div class="header-left">
 				<h1 class="logo">{{ 'header.title' | translate }}</h1>
@@ -136,7 +143,9 @@
 		</section>
 	</main>
 
-	<footer class="site-footer">
-		<p>© {{ currentYear }} Ying Fu Market Inc. All rights reserved.</p>
-	</footer>
+			<footer class="site-footer">
+				<p>© {{ currentYear }} Ying Fu Market Inc. All rights reserved.</p>
+			</footer>
+		</div>
+	</div>
 </div>

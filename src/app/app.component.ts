@@ -15,9 +15,6 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private translate: TranslateService) {}
 
   ngOnInit(): void {
-    // For GitHub Pages / CDN caching: force-reload translation JSON on startup by
-    // fetching with a cache-busting query param and setting translations explicitly.
-    // This ensures deployed zh/en JSON updates are picked up by clients.
     try {
       ['zh', 'en'].forEach(lang => {
         this.http
@@ -28,7 +25,7 @@ export class AppComponent implements OnInit {
           });
       });
     } catch {
-      // ignore
+
     }
   }
 }

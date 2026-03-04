@@ -4,6 +4,8 @@
 	color: #1f2937;
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
 		"Segoe UI", sans-serif;
+	display: flex;
+	flex-direction: column;
 }
 
 .intro-overlay {
@@ -80,7 +82,7 @@
 
 .top-brand-bg {
 	width: min(1120px, calc(100% - 32px));
-	margin: 0 auto 16px;
+	margin: 0 0 16px 24px;
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center top;
@@ -89,7 +91,7 @@
 
 .header {
 	max-width: 1120px;
-	margin: 0 auto;
+	margin: 0 0 0 24px;
 	padding: 20px 16px;
 	display: flex;
 	align-items: center;
@@ -165,7 +167,7 @@
 
 .content {
 	max-width: 1120px;
-	margin: 0 auto;
+	margin: 0 0 0 24px;
 	padding: 0 16px 32px;
 }
 
@@ -301,6 +303,49 @@
 	text-transform: uppercase;
 }
 
+.layout {
+	display: flex;
+	gap: 16px;
+	margin: 12px 0 12px 24px;
+	padding: 0 16px;
+}
+.sidebar {
+	width: 220px;
+	flex: 0 0 220px;
+}
+.main-column {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Categories grid */
+.categories-inner {
+	display: flex;
+	gap: 8px;
+	flex-direction: column;
+}
+.category-pill {
+	padding: 8px 12px;
+	border-radius: 999px;
+	border: 1px solid #f3c2c2;
+	background: #fff;
+	color: #991b1b;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.category-pill .count {
+	margin-left: 8px;
+	font-weight: 500;
+	color: #6b7280;
+}
+.category-pill.active {
+	background: #dc2626;
+	color: #fff;
+	border-color: #dc2626;
+}
+
 .card-body {
 	padding: 12px 14px 14px;
 	display: flex;
@@ -375,11 +420,15 @@
 
 .site-footer {
 	max-width: 1120px;
-	margin: 0 auto;
+	margin: 0 0 0 24px;
 	padding: 0 16px 24px;
 	text-align: center;
 	color: #7f1d1d;
 	font-size: 12px;
+}
+
+.site-footer {
+	margin-top: auto;
 }
 
 .location-section {
