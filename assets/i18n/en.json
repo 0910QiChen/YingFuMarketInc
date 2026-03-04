@@ -14,7 +14,9 @@
   },
   "products": {
     "all": "All products",
-    "count": "{{count}} items"
+    "count": "{{count}} items",
+    "others": "Others",
+    "topSale": "Top sale"
   },
   "price": {
     "unit": "/ 1 pound",
