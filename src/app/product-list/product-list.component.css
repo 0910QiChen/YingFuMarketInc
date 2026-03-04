@@ -1,9 +1,90 @@
 .page {
 	min-height: 100vh;
-	background: linear-gradient(180deg, #fff5f5 0%, #ffffff 70%);
+	background: linear-gradient(180deg, #fff7f7 0%, #fff5f5 32%, #ffffff 100%);
 	color: #1f2937;
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
 		"Segoe UI", sans-serif;
+}
+
+.intro-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background: rgba(15, 23, 42, 0.55);
+	backdrop-filter: blur(3px);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 360ms ease, visibility 360ms ease;
+}
+
+.intro-card {
+	width: min(1120px, 100%);
+	background: #ffffff;
+	border: 1px solid #fecaca;
+	border-radius: 20px;
+	box-shadow: 0 24px 48px rgba(15, 23, 42, 0.28);
+	padding: 18px;
+	display: grid;
+	gap: 14px;
+}
+
+.intro-brand {
+	min-height: clamp(220px, 46vh, 460px);
+	background-image: url('/favicon1.ico');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.intro-enter {
+	justify-self: center;
+	padding: 10px 22px;
+	border-radius: 999px;
+	border: none;
+	background: #dc2626;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.12s ease, transform 0.12s ease;
+}
+
+.intro-enter:hover {
+	background: #b91c1c;
+	transform: translateY(-1px);
+}
+
+.intro-overlay.visible {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+.intro-card {
+	transition: transform 360ms ease, opacity 360ms ease;
+}
+
+.intro-overlay:not(.visible) .intro-card {
+	transform: translateY(8px);
+	opacity: 0.96;
+}
+
+.top-brand-bg {
+	width: min(1120px, calc(100% - 32px));
+	margin: 0 auto 16px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center top;
+	overflow: hidden;
 }
 
 .header {
@@ -205,6 +286,21 @@
 	backdrop-filter: blur(10px);
 }
 
+.top-sale-badge {
+	position: absolute;
+	right: 12px;
+	top: 12px;
+	padding: 4px 10px;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 700;
+	color: #7f1d1d;
+	background: linear-gradient(90deg, #ffedd5 0%, #fecaca 100%);
+	border: 1px solid #fca5a5;
+	box-shadow: 0 6px 12px rgba(249, 115, 22, 0.08);
+	text-transform: uppercase;
+}
+
 .card-body {
 	padding: 12px 14px 14px;
 	display: flex;
@@ -353,6 +449,15 @@
 }
 
 @media (max-width: 640px) {
+	.intro-card {
+		padding: 12px;
+		gap: 10px;
+	}
+
+	.intro-brand {
+		min-height: 200px;
+	}
+
 	.header {
 		flex-direction: column;
 		align-items: flex-start;

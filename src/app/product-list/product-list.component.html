@@ -1,37 +1,48 @@
+<div class="intro-overlay" [class.visible]="showIntro" [attr.aria-hidden]="!showIntro" (click)="enterSite()">
+	<div class="intro-card" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+		<div class="intro-brand"></div>
+		<button type="button" class="intro-enter" (click)="enterSite()">
+			{{ 'intro.enter' | translate }}
+		</button>
+	</div>
+</div>
+
 <div class="page">
-	<header class="header">
-		<div class="header-left">
-			<h1 class="logo">{{ 'header.title' | translate }}</h1>
-			<p class="slogan">{{ 'header.slogan' | translate }}</p>
-		</div>
-		<div class="header-right">
-			<div class="lang-switch">
-				<button
-					type="button"
-					class="lang-button"
-					[class.active]="currentLang === 'zh'"
-					(click)="changeLanguage('zh')"
-				>
-					{{ 'lang.zh' | translate }}
-				</button>
-				<button
-					type="button"
-					class="lang-button"
-					[class.active]="currentLang === 'en'"
-					(click)="changeLanguage('en')"
-				>
-					{{ 'lang.en' | translate }}
-				</button>
+	<div class="top-brand-bg">
+		<header class="header">
+			<div class="header-left">
+				<h1 class="logo">{{ 'header.title' | translate }}</h1>
+				<p class="slogan">{{ 'header.slogan' | translate }}</p>
 			</div>
-			<input
-				class="search-input"
-				[placeholder]="'header.searchPlaceholder' | translate"
-				[value]="searchTerm"
-				(input)="onSearch($any($event.target).value)"
-				type="text"
-			/>
-		</div>
-	</header>
+			<div class="header-right">
+				<div class="lang-switch">
+					<button
+						type="button"
+						class="lang-button"
+						[class.active]="currentLang === 'zh'"
+						(click)="changeLanguage('zh')"
+					>
+						{{ 'lang.zh' | translate }}
+					</button>
+					<button
+						type="button"
+						class="lang-button"
+						[class.active]="currentLang === 'en'"
+						(click)="changeLanguage('en')"
+					>
+						{{ 'lang.en' | translate }}
+					</button>
+				</div>
+				<input
+					class="search-input"
+					[placeholder]="'header.searchPlaceholder' | translate"
+					[value]="searchTerm"
+					(input)="onSearch($any($event.target).value)"
+					type="text"
+				/>
+			</div>
+		</header>
+	</div>
 
 	<main class="content">
 		<section class="banner" [style.background-image]="bannerBackground()">
@@ -70,6 +81,9 @@
 						<span class="badge" *ngIf="item.categoryName">
 							{{ localizedName(item.categoryName) }}
 						</span>
+						<span class="top-sale-badge" *ngIf="item.topSale">
+							{{ currentLang === 'zh' ? '热销' : 'Top Sale' }}
+						</span>
 					</div>
 
 					<div class="card-body">
@@ -77,10 +91,15 @@
 						<p class="desc">{{ localizedDescription(item.description) }}</p>
 						<div class="card-footer">
 							<div class="price-block">
-								<span class="price">{{ item.price | currency:'USD' }}</span>
-								<span class="price-unit">
-									{{ 'price.unit' | translate }}
-								</span>
+								<ng-container *ngIf="item.price > 0; else discussInStore">
+									<span class="price">{{ item.price | currency:'USD' }}</span>
+									<span class="price-unit">
+										{{ 'price.unit' | translate }}
+									</span>
+								</ng-container>
+								<ng-template #discussInStore>
+									<span class="price">{{ 'price.discussWithLabel' | translate }}</span>
+								</ng-template>
 							</div>
 						</div>
 					</div>

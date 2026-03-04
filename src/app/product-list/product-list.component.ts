@@ -17,9 +17,36 @@ export class ProductListComponent implements OnInit, OnDestroy {
   currentLang: 'zh' | 'en' = 'zh';
   currentYear = new Date().getFullYear();
   bannerProduct: ProductWithCategoryName | null = null;
+  showIntro = true;
+  private readonly introAutoHideMs = 10000;
+  private introTimer: ReturnType<typeof setTimeout> | null = null;
 
-  private readonly bannerRotateIntervalMs = 7000;
+  private readonly bannerRotateIntervalMs = 5000;
+  private readonly introSeenStorageKey = 'yingfu_intro_seen';
   private bannerRotateTimer: ReturnType<typeof setInterval> | null = null;
+
+  private detectBrowserLanguage(): 'zh' | 'en' {
+    try {
+      const nav = (window && (navigator as any)) || null;
+      const lang = (nav?.language || (nav?.languages && nav.languages[0]) || '').toString().toLowerCase();
+
+      if (!lang) {
+        return 'en';
+      }
+
+      if (lang.startsWith('zh')) {
+        return 'zh';
+      }
+
+      if (lang.startsWith('en')) {
+        return 'en';
+      }
+
+      return 'en';
+    } catch {
+      return 'en';
+    }
+  }
 
   constructor(
     private sheetService: GoogleSheetService,
@@ -27,8 +54,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.translate.setDefaultLang('zh');
-    this.translate.use(this.currentLang);
+
+    const detected = this.detectBrowserLanguage();
+    this.currentLang = detected;
+    this.translate.setDefaultLang(detected);
+    this.translate.use(detected);
+
+    this.showIntro = true;
+    this.startIntroAutoHide();
 
     this.startBannerRotation();
 
@@ -43,6 +76,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
       clearInterval(this.bannerRotateTimer);
       this.bannerRotateTimer = null;
     }
+    if (this.introTimer) {
+      clearTimeout(this.introTimer);
+      this.introTimer = null;
+    }
   }
 
   changeLanguage(lang: 'zh' | 'en'): void {
@@ -52,6 +89,32 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.currentLang = lang;
     this.translate.use(lang);
+  }
+
+  enterSite(): void {
+    this.clearIntroTimer();
+    this.showIntro = false;
+    this.markIntroSeen();
+  }
+
+  private startIntroAutoHide(): void {
+    this.clearIntroTimer();
+    try {
+      this.introTimer = setTimeout(() => {
+        this.showIntro = false;
+        this.markIntroSeen();
+        this.introTimer = null;
+      }, this.introAutoHideMs);
+    } catch {
+      this.introTimer = null;
+    }
+  }
+
+  private clearIntroTimer(): void {
+    if (this.introTimer) {
+      clearTimeout(this.introTimer);
+      this.introTimer = null;
+    }
   }
 
   onSearch(value: string): void {
@@ -162,21 +225,45 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return chineseText || text;
   }
 
+  private shouldShowIntro(): boolean {
+    try {
+      return localStorage.getItem(this.introSeenStorageKey) !== '1';
+    } catch {
+      return false;
+    }
+  }
+
+  private markIntroSeen(): void {
+    try {
+      localStorage.setItem(this.introSeenStorageKey, '1');
+    } catch {
+      return;
+    }
+  }
+
   get filteredProducts(): ProductWithCategoryName[] {
     const keyword = this.searchTerm.trim().toLowerCase();
     const namedProducts = this.products.filter((item) => item.name?.trim());
 
-    if (!keyword) {
-      return namedProducts;
-    }
+    const filterByKeyword = (list: ProductWithCategoryName[]) => {
+      if (!keyword) return list;
+      return list.filter((item) => {
+        const searchableText = [item.name, item.description, item.categoryName]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
 
-    return namedProducts.filter((item) => {
-      const searchableText = [item.name, item.description, item.categoryName]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
+        return searchableText.includes(keyword);
+      });
+    };
 
-      return searchableText.includes(keyword);
+    // Ensure topSale items appear first while preserving relative order otherwise
+    const sorted = [...namedProducts].sort((a, b) => {
+      const aTop = a.topSale ? 1 : 0;
+      const bTop = b.topSale ? 1 : 0;
+      return bTop - aTop;
     });
+
+    return filterByKeyword(sorted);
   }
 }

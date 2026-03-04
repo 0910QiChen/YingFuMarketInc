@@ -10,6 +10,7 @@ export interface Product {
   description: string;
   imageUrl: string;
   category: number;
+  topSale: boolean;
 }
 
 export interface Category {
@@ -24,7 +25,7 @@ export class GoogleSheetService {
   private apiKey = environment.googleSheets.apiKey;
   private spreadsheetId = environment.googleSheets.spreadsheetId;
 
-  private productsRange = 'Products!A2:F1000';
+  private productsRange = 'Products!A2:G1000';
   private categoriesRange = 'Categories!A2:B1000';
 
   constructor(private http: HttpClient) {}
@@ -42,6 +43,7 @@ export class GoogleSheetService {
           description: row[3] ?? '',
           imageUrl: row[4] ?? '',
           category: Number(row[5] ?? 0),
+          topSale: (row[6] ?? '').toString().toLowerCase() === 'true',
         }));
       })
     );
