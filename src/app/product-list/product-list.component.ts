@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHelperService } from '../i18n/translate-helper.service';
 import { GoogleSheetService, ProductWithCategoryName } from '../google-sheet.service';
@@ -9,7 +10,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, TranslateModule, AboutStoryComponent, SidebarComponent],
+  imports: [CommonModule, RouterModule, TranslateModule, AboutStoryComponent, SidebarComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
@@ -65,8 +66,38 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.translate.setDefaultLang(detected);
     this.translate.use(detected);
 
-    this.showIntro = true;
-    this.startIntroAutoHide();
+    try {
+      const seen = localStorage.getItem(this.introSeenStorageKey);
+      const fromDetail = sessionStorage.getItem('yingfu_last_view') === 'detail';
+
+      let isReload = false;
+      try {
+        const navEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+        if (navEntries && navEntries.length) {
+          isReload = navEntries[0].type === 'reload';
+        } else if ((performance as any).navigation) {
+          isReload = (performance as any).navigation.type === 1;
+        }
+      } catch {
+        isReload = false;
+      }
+
+      if (fromDetail) {
+        this.showIntro = false;
+      } else if (seen === '1' && !isReload) {
+        this.showIntro = false;
+      } else {
+        this.showIntro = true;
+        this.startIntroAutoHide();
+      }
+
+      if (fromDetail) {
+        sessionStorage.removeItem('yingfu_last_view');
+      }
+    } catch {
+      this.showIntro = true;
+      this.startIntroAutoHide();
+    }
 
     this.startBannerRotation();
 

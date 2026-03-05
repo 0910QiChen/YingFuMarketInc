@@ -23,6 +23,19 @@
     "discussInStore": "店内洽谈",
     "discussWithLabel": "每磅价格：店内洽谈"
   },
+  "detail": {
+    "topSale": "热销批次",
+    "origin": "产地：",
+    "season": "季节：",
+    "process": "工艺：",
+    "benefitsTitle": "推荐理由 / 主要功效",
+    "preparationTitle": "简单处理方式",
+    "recipesTitle": "推荐做法",
+    "storageTitle": "保存建议",
+    "bundleTitle": "搭配推荐",
+    "notFound": "未能找到该商品，请到店咨询或查看更多产品。",
+    "back": "返回商品列表"
+  },
   "about": {
     "title": "关于盈福参茸行",
     "subtitle": "了解我们是谁、我们坚持什么、以及客户为何信任我们。",

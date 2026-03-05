@@ -80,7 +80,11 @@
 			</div>
 
 			<div class="product-list">
-				<div *ngFor="let item of filteredProducts" class="product-card">
+				<a
+					*ngFor="let item of filteredProducts"
+					class="product-card"
+					[routerLink]="['/products', item.id]"
+				>
 					<div
 						class="image-wrapper"
 						[style.background-image]="itemBackground(item.imageUrl)"
@@ -110,7 +114,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 		</section>
 

@@ -23,6 +23,19 @@
     "discussInStore": "Discuss in store",
     "discussWithLabel": "Price/Pound: Discuss in store"
   },
+  "detail": {
+    "topSale": "Top sale batch",
+    "origin": "Origin:",
+    "season": "Season:",
+    "process": "Processing:",
+    "benefitsTitle": "Why it is good",
+    "preparationTitle": "How to prepare",
+    "recipesTitle": "Easy recipes",
+    "storageTitle": "Storage tips",
+    "bundleTitle": "Perfect with",
+    "notFound": "We couldn't find this product. Please visit our store for more information.",
+    "back": "Back to products"
+  },
   "about": {
     "title": "About Ying Fu Market Inc.",
     "subtitle": "Who we are, what we stand for, and why customers trust us.",

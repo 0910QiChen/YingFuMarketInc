@@ -1,0 +1,133 @@
+<div class="detail-page" *ngIf="product as p; else notFound">
+	<nav class="detail-nav">
+		<a routerLink="/" class="back-link">
+			<span>&larr;</span>
+			<span>{{ 'detail.back' | translate }}</span>
+		</a>
+	</nav>
+
+	<header class="detail-header">
+		<div class="detail-badge-row">
+			<span class="detail-category" *ngIf="p.categoryName">
+				{{ localizedName(p.categoryName) }}
+			</span>
+			<span class="detail-top-sale" *ngIf="p.topSale">
+				{{ 'detail.topSale' | translate }}
+			</span>
+		</div>
+
+		<h1 class="detail-title">
+			{{ localizedName(p.name) }}
+		</h1>
+
+		<p class="detail-tagline" *ngIf="p.tagline">
+			{{ localizedDescription(p.tagline) }}
+		</p>
+
+		<div class="detail-meta-row">
+			<div class="price-block">
+				<ng-container *ngIf="p.price > 0; else discussInStore">
+					<span class="price">{{ p.price | currency: 'USD' }}</span>
+					<span class="price-unit">
+						{{ 'price.unit' | translate }}
+					</span>
+				</ng-container>
+				<ng-template #discussInStore>
+					<span class="price">{{ 'price.discussWithLabel' | translate }}</span>
+				</ng-template>
+			</div>
+
+			<ul class="origin-list">
+				<li *ngIf="p.origin">
+					<strong>{{ 'detail.origin' | translate }}</strong>
+					<span>{{ localizedDescription(p.origin) }}</span>
+				</li>
+				<li *ngIf="p.harvestSeason">
+					<strong>{{ 'detail.season' | translate }}</strong>
+					<span>{{ localizedDescription(p.harvestSeason) }}</span>
+				</li>
+				<li *ngIf="p.processingMethod">
+					<strong>{{ 'detail.process' | translate }}</strong>
+					<span>{{ localizedDescription(p.processingMethod) }}</span>
+				</li>
+			</ul>
+		</div>
+	</header>
+
+	<main class="detail-main">
+		<section class="detail-hero">
+			<div
+				class="hero-image"
+				[style.background-image]="p.imageUrl ? 'url(' + p.imageUrl + ')' : ''"
+			></div>
+
+			<section class="detail-section" *ngIf="p.benefits">
+				<h2>{{ 'detail.benefitsTitle' | translate }}</h2>
+				<p>{{ localizedDescription(p.benefits) }}</p>
+			</section>
+
+			<section class="detail-section" *ngIf="p.preparation">
+				<h2>{{ 'detail.preparationTitle' | translate }}</h2>
+				<p>{{ localizedDescription(p.preparation) }}</p>
+			</section>
+		</section>
+
+		<section class="detail-recipes" *ngIf="p.recipe1Title || p.recipe2Title">
+			<h2>{{ 'detail.recipesTitle' | translate }}</h2>
+
+			<article class="recipe-card" *ngIf="p.recipe1Title">
+				<h3>{{ localizedName(p.recipe1Title) }}</h3>
+				<p>{{ localizedDescription(p.recipe1Steps) }}</p>
+			</article>
+
+			<article class="recipe-card" *ngIf="p.recipe2Title">
+				<h3>{{ localizedName(p.recipe2Title) }}</h3>
+				<p>{{ localizedDescription(p.recipe2Steps) }}</p>
+			</article>
+		</section>
+
+		<section class="detail-section" *ngIf="p.storageTips || p.bundleSuggestions">
+			<div *ngIf="p.storageTips" class="detail-subsection">
+				<h2>{{ 'detail.storageTitle' | translate }}</h2>
+				<p>{{ localizedDescription(p.storageTips) }}</p>
+			</div>
+
+			<div *ngIf="p.bundleSuggestions" class="detail-subsection">
+				<h2>{{ 'detail.bundleTitle' | translate }}</h2>
+				<p>{{ localizedDescription(p.bundleSuggestions) }}</p>
+			</div>
+		</section>
+		<section class="location-section">
+			<div class="location-header">
+				<h2>{{ 'location.title' | translate }}</h2>
+				<p>{{ 'location.subtitle' | translate }}</p>
+			</div>
+
+			<div class="location-card">
+				<p class="location-line">
+					<strong>{{ 'location.addressLabel' | translate }}</strong>
+					<span>{{ 'location.addressValue' | translate }}</span>
+				</p>
+				<p class="location-line">
+					<strong>{{ 'location.hoursLabel' | translate }}</strong>
+					<span>{{ 'location.hoursValue' | translate }}</span>
+				</p>
+				<a
+					class="location-link"
+					href="https://www.google.com/maps/place/42-35+Main+St,+Flushing,+NY+11355/@40.7546757,-73.8301189,17z/data=!3m1!4b1!4m6!3m5!1s0x89c26012fbc46021:0x340afa55af3148ad!8m2!3d40.7546717!4d-73.827544!16s%2Fg%2F11c22zwmgh?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{{ 'location.mapCta' | translate }}
+				</a>
+			</div>
+		</section>
+	</main>
+</div>
+
+<ng-template #notFound>
+	<div class="detail-page not-found">
+		<p>{{ 'detail.notFound' | translate }}</p>
+	</div>
+</ng-template>
+

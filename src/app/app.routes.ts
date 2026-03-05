@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
 import { ProductListComponent } from './product-list/product-list.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: ProductListComponent,
   },
-  // 例如：单独的 /products 路由（可选）
-  // {
-  //   path: 'products',
-  //   component: ProductListComponent,
-  // },
+  {
+    path: 'products/:id',
+    component: ProductDetailComponent,
+  },
 ];

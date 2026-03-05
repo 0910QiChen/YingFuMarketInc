@@ -11,6 +11,21 @@ export interface Product {
   imageUrl: string;
   category: number;
   topSale: boolean;
+
+  // Extended fields for product detail page.
+  // These map to additional columns in the Google Sheet, in order.
+  tagline?: string;
+  origin?: string;
+  harvestSeason?: string;
+  processingMethod?: string;
+  benefits?: string;
+  preparation?: string;
+  recipe1Title?: string;
+  recipe1Steps?: string;
+  recipe2Title?: string;
+  recipe2Steps?: string;
+  storageTips?: string;
+  bundleSuggestions?: string;
 }
 
 export interface Category {
@@ -25,7 +40,7 @@ export class GoogleSheetService {
   private apiKey = environment.googleSheets.apiKey;
   private spreadsheetId = environment.googleSheets.spreadsheetId;
 
-  private productsRange = 'Products!A2:G1000';
+  private productsRange = 'Products!A2:P1000';
   private categoriesRange = 'Categories!A2:B1000';
 
   constructor(private http: HttpClient) {}
@@ -44,6 +59,20 @@ export class GoogleSheetService {
           imageUrl: row[4] ?? '',
           category: Number(row[5] ?? 0),
           topSale: (row[6] ?? '').toString().toLowerCase() === 'true',
+
+          // Detail columns (all optional; safe if some are missing)
+          tagline: row[7] ?? '',
+          origin: row[8] ?? '',
+          harvestSeason: row[9] ?? '',
+          processingMethod: row[10] ?? '',
+          benefits: row[11] ?? '',
+          preparation: row[12] ?? '',
+          recipe1Title: row[13] ?? '',
+          recipe1Steps: row[14] ?? '',
+          recipe2Title: row[15] ?? '',
+          recipe2Steps: row[16] ?? '',
+          storageTips: row[17] ?? '',
+          bundleSuggestions: row[18] ?? '',
         }));
       })
     );

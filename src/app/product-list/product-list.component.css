@@ -248,6 +248,8 @@
 }
 
 .product-card {
+	text-decoration: none;
+	color: inherit;
 	background: #ffffff;
 	border-radius: 18px;
 	border: 1px solid #d1d5db;
