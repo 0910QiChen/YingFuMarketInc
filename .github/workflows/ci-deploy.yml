@@ -24,6 +24,7 @@ jobs:
         env:
           SHEETS_API_KEY: ${{ secrets.SHEETS_API_KEY }}
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
         run: |
           node scripts/fetch-sheets.js
 

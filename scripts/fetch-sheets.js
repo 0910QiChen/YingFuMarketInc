@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const { google } = require('googleapis');
 
 async function fetchJson(url) {
   if (typeof fetch === 'undefined') {
@@ -19,9 +20,15 @@ async function fetchJson(url) {
 async function main() {
   const API_KEY = process.env.SHEETS_API_KEY;
   const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+  const SERVICE_ACCOUNT_KEY = process.env.SERVICE_ACCOUNT_KEY;
 
-  if (!API_KEY || !SPREADSHEET_ID) {
-    console.error('Missing SHEETS_API_KEY or SPREADSHEET_ID environment variables.');
+  if (!SPREADSHEET_ID) {
+    console.error('Missing SPREADSHEET_ID environment variable.');
+    process.exit(1);
+  }
+
+  if (!SERVICE_ACCOUNT_KEY && !API_KEY) {
+    console.error('Missing SERVICE_ACCOUNT_KEY or SHEETS_API_KEY environment variable.');
     process.exit(1);
   }
 
@@ -32,7 +39,42 @@ async function main() {
   const categoriesUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(categoriesRange)}?key=${API_KEY}`;
 
   try {
-    const [prodRes, catRes] = await Promise.all([fetchJson(productsUrl), fetchJson(categoriesUrl)]);
+    let prodRes, catRes;
+
+    if (SERVICE_ACCOUNT_KEY) {
+      // SERVICE_ACCOUNT_KEY may be base64 or raw JSON
+      let serviceAccount;
+      try {
+        serviceAccount = JSON.parse(Buffer.from(SERVICE_ACCOUNT_KEY, 'base64').toString());
+      } catch (e) {
+        try {
+          serviceAccount = JSON.parse(SERVICE_ACCOUNT_KEY);
+        } catch (ee) {
+          throw new Error('SERVICE_ACCOUNT_KEY must be valid JSON or base64-encoded JSON');
+        }
+      }
+
+      const jwtClient = new google.auth.JWT(
+        serviceAccount.client_email,
+        null,
+        serviceAccount.private_key,
+        ['https://www.googleapis.com/auth/spreadsheets.readonly']
+      );
+
+      await jwtClient.authorize();
+      const sheets = google.sheets({ version: 'v4', auth: jwtClient });
+      const [p, c] = await Promise.all([
+        sheets.spreadsheets.values.get({ spreadsheetId: SPREADSHEET_ID, range: productsRange }),
+        sheets.spreadsheets.values.get({ spreadsheetId: SPREADSHEET_ID, range: categoriesRange }),
+      ]);
+
+      prodRes = p.data;
+      catRes = c.data;
+    } else {
+      const [p, c] = await Promise.all([fetchJson(productsUrl), fetchJson(categoriesUrl)]);
+      prodRes = p;
+      catRes = c;
+    }
 
     const prodRows = prodRes.values || [];
     const catRows = catRes.values || [];
