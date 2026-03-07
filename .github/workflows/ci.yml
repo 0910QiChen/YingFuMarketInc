@@ -27,4 +27,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx angular-cli-ghpages --dir=dist/ying-fu-market-inc --branch=gh-pages --repo="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" --message="Deploy from GitHub Actions"
+          npx angular-cli-ghpages --dir=dist/ying-fu-market-inc/root --branch=gh-pages --repo="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" --message="Deploy from GitHub Actions"
