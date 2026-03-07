@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHelperService } from '../i18n/translate-helper.service';
 import { GoogleSheetService, ProductWithCategoryName } from '../google-sheet.service';
@@ -54,6 +54,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+    private route: ActivatedRoute,
     private sheetService: GoogleSheetService,
     private translate: TranslateService,
     private th: TranslateHelperService
@@ -61,10 +62,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    const detected = this.detectBrowserLanguage();
-    this.currentLang = detected;
-    this.translate.setDefaultLang(detected);
-    this.translate.use(detected);
+    const stored = (localStorage.getItem('yingfu_lang') || '').toString().toLowerCase() as 'zh' | 'en' | '';
+    const detected = stored || this.detectBrowserLanguage();
+    this.currentLang = (detected as 'zh' | 'en');
+    this.translate.setDefaultLang(this.currentLang);
+    this.translate.use(this.currentLang);
 
     try {
       const seen = localStorage.getItem(this.introSeenStorageKey);
@@ -101,6 +103,18 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.startBannerRotation();
 
+    try {
+      const qCat = (this.route.snapshot.queryParamMap.get('category') || '').toString();
+      if (qCat && qCat.trim() !== '') {
+        this.selectedCategory = qCat;
+      } else {
+        const storedCat = (sessionStorage.getItem('yingfu_selected_category') || '').toString();
+        if (storedCat && storedCat.trim() !== '') {
+          this.selectedCategory = storedCat;
+        }
+      }
+    } catch {}
+
     this.sheetService.getProductsWithCategoryName().subscribe(data => {
       this.products = (data || []).filter(p => (p.name ?? '').trim() && (p.description ?? '').trim());
       this.setRandomBannerProduct();
@@ -120,9 +134,21 @@ export class ProductListComponent implements OnInit, OnDestroy {
   selectCategory(name: string): void {
     if (this.selectedCategory === name) {
       this.selectedCategory = '';
-    } else {
-      this.selectedCategory = name;
+      try {
+        sessionStorage.removeItem('yingfu_selected_category');
+      } catch {}
+      return;
     }
+
+    // selecting a (possibly empty) name — treat empty as All and don't persist
+    this.selectedCategory = name;
+    try {
+      if (name && name.trim() !== '') {
+        sessionStorage.setItem('yingfu_selected_category', name);
+      } else {
+        sessionStorage.removeItem('yingfu_selected_category');
+      }
+    } catch {}
   }
 
   ngOnDestroy(): void {
@@ -143,6 +169,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.currentLang = lang;
     this.translate.use(lang);
+    try {
+      localStorage.setItem('yingfu_lang', lang);
+    } catch {}
   }
 
   enterSite(): void {

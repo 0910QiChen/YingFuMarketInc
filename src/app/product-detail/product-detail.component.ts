@@ -14,6 +14,7 @@ import { TranslateHelperService } from '../i18n/translate-helper.service';
 })
 export class ProductDetailComponent implements OnInit {
   product: ProductWithCategoryName | null = null;
+  prevCategory: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,12 @@ export class ProductDetailComponent implements OnInit {
       sessionStorage.setItem('yingfu_last_view', 'detail');
     } catch {}
 
+    try {
+      if (this.route.snapshot.queryParamMap.has('category')) {
+        this.prevCategory = this.route.snapshot.queryParamMap.get('category') || '';
+      }
+    } catch {}
+
     this.sheetService.getProductsWithCategoryName().subscribe(list => {
       this.product = list.find(p => p.id === id) ?? null;
     });
@@ -45,6 +52,17 @@ export class ProductDetailComponent implements OnInit {
 
   localizedDescription(raw?: string): string {
     return this.th.toLocalizedText(raw);
+  }
+
+  normalizeCategory(raw?: string): string {
+    const s = (raw ?? '').trim();
+    if (!s) return '';
+
+    if (/\b(others)\b/i.test(s) || /其他/.test(s) || /其他\s*Others?/i.test(s)) {
+      return 'Others';
+    }
+
+    return s;
   }
 }
 

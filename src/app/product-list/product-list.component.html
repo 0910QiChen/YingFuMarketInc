@@ -84,6 +84,7 @@
 					*ngFor="let item of filteredProducts"
 					class="product-card"
 					[routerLink]="['/products', item.id]"
+					[queryParams]="{ category: selectedCategory }"
 				>
 					<div
 						class="image-wrapper"

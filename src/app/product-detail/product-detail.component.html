@@ -1,6 +1,6 @@
 <div class="detail-page" *ngIf="product as p; else notFound">
 	<nav class="detail-nav">
-		<a routerLink="/" class="back-link">
+		<a [routerLink]="['/']" [queryParams]="prevCategory !== null ? { category: prevCategory } : null" class="back-link">
 			<span>&larr;</span>
 			<span>{{ 'detail.back' | translate }}</span>
 		</a>

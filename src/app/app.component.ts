@@ -15,6 +15,22 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     try {
+      const stored = (localStorage.getItem('yingfu_lang') || '').toString().toLowerCase();
+      let initial = stored;
+      if (!initial) {
+        try {
+          const nav = (window && (navigator as any)) || null;
+          const lang = (nav?.language || (nav?.languages && nav.languages[0]) || '').toString().toLowerCase();
+          if (lang && lang.startsWith('zh')) initial = 'zh';
+          else initial = 'en';
+        } catch {
+          initial = 'zh';
+        }
+      }
+
+      this.translate.setDefaultLang(initial);
+      this.translate.use(initial);
+
       ['zh', 'en'].forEach(lang => {
         this.http
           .get(`/assets/i18n/${lang}.json?cb=${Date.now()}`)
